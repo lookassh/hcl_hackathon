@@ -1,0 +1,13 @@
+GET /favorites?page=0&size=5
+Authorization: Basic user1 pwd
+
+#
+
+{
+"favId":
+
+}
+
+
+###
+
