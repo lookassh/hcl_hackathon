@@ -29,7 +29,7 @@ public class FavouriteAccountController {
 
 
     @DeleteMapping(value = "{favId}")
-    public void delete(Long favId) {
+    public void delete(@PathVariable Long favId) {
         favouriteAccountDeleteService.deleteById(favId);
     }
 
