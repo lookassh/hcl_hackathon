@@ -39,7 +39,7 @@ public class FavouriteAccountController {
     private UserService userService;
 
     @GetMapping()
-    public ResponseEntity<Page<FavouriteAccount>> getFavorites(@RequestHeader("userId") Long userId,
+    public ResponseEntity<Page<FavouriteAccount>> getFavorites(@RequestHeader("User-Id") Long userId,
                                                                @PageableDefault(value=5) Pageable pageable) {
         Page<FavouriteAccount> page = favouriteAccountListService.viewFavorites(userId, pageable);
         return new ResponseEntity(page, HttpStatus.OK);

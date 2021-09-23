@@ -1,0 +1,9 @@
+version: '2'
+services:
+  employee-db:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: changeit
+      MYSQL_DATABASE: favorites
