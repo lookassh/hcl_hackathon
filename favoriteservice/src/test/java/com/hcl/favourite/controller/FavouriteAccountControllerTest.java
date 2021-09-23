@@ -4,7 +4,9 @@ import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.repository.FavouriteAccountRespository;
 import com.hcl.favourite.service.FavouriteAccountCreateService;
 import com.hcl.favourite.service.FavouriteAccountListService;
+import com.hcl.favourite.service.IbanToBankCode;
 import com.hcl.favourite.service.UserService;
+import com.hcl.favourite.service.bankname.ResolveBankNameService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ public class FavouriteAccountControllerTest {
     @MockBean
     private FavouriteAccountListService favouriteAccountListService;
 
+    @MockBean
+    private ResolveBankNameService resolveBankNameService;
+
+    @MockBean
+    private IbanToBankCode ibanToBankCode;
+
     @TestConfiguration
     static class TestContextConfiguration {
 
@@ -64,7 +72,7 @@ public class FavouriteAccountControllerTest {
         Mockito.when(userService.isValidUser(Mockito.anyLong())).thenReturn(false);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/favourites")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{ \"iban\": \"ES1111111111111111\",\"name\": \"Account 1\"}")).andDo(print()).andExpect(status().isUnauthorized());
+                .content("{ \"iban\": \"ES11111111111111\",\"favName\": \"Account 1\"}")).andDo(print()).andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -72,7 +80,7 @@ public class FavouriteAccountControllerTest {
         Mockito.when(userService.isValidUser(Mockito.anyLong())).thenReturn(false);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/favourites")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{ \"iban\": \"ES1111111111111111\",\"name\": \"Account 1\"}").header("User-Id", 1)).andDo(print()).andExpect(status().isUnauthorized());
+                .content("{ \"iban\": \"ES1111111111111\",\"favName\": \"Account 1\"}").header("User-Id", 1)).andDo(print()).andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -82,6 +90,6 @@ public class FavouriteAccountControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content("{ \"iban\": \"ES1111111111111111\",\"favName\": \"Account 1\"}").header("User-Id", 1)).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":1, \"iban\": \"ES1111111111111111\",\"favName\": \"Account 1\", \"bankName\":null, \"status\":\"VALIDATION\"}", true));
+                .andExpect(content().json("{\"id\":1, \"iban\": \"ES1111111111111111\",\"favName\": \"Account 1\", \"bankName\":null, \"status\":\"PENDING_VALIDATION\"}", true));
     }
 }

@@ -2,6 +2,7 @@ package com.hcl.favourite.controller.dto;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * Favorite account create
@@ -11,7 +12,7 @@ public class FavoriteAccountCreate {
     @NotBlank
     private String favName;
 
-    @NotBlank @Max(20)
+    @Pattern(regexp = "^[A-Za-z0-9]{1,20}$", message = "IBAN must consist of up to 20 alphanumeric characters")
     private String iban;
 
     public String getFavName() {

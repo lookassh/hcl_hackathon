@@ -44,13 +44,13 @@ public class FavouriteAccountCreateService {
         FavouriteAccount favouriteAccount = favouriteAccountRespository.save(account);
         String bankCode = ibanToBankCode.resolve(account.getIban());
 
-        try{
-            resolveBankNameService.submitResolveBankNameEvent(favouriteAccount.getId().toString(), bankCode);
-        }catch (Exception e){
-            log.error("Unable to send", e);
-            favouriteAccount.setStatus(ERROR);
-            favouriteAccountRespository.save(account);
-        }
+//        try{
+//            resolveBankNameService.submitResolveBankNameEvent(favouriteAccount.getId().toString(), bankCode);
+//        }catch (Exception e){
+//            log.error("Unable to send", e);
+//            favouriteAccount.setStatus(ERROR);
+//            favouriteAccountRespository.save(account);
+//        }
         return favouriteAccount;
     }
 

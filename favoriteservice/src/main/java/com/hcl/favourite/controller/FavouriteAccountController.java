@@ -15,12 +15,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,8 @@ public class FavouriteAccountController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public FavoriteAccountView create(@RequestBody FavoriteAccountCreate favoriteAccountCreate, @RequestHeader("User-Id") Long userId) throws FavouriteAccountCreateService.TooManyFavouriteAccountsBusinessException {
+    public FavoriteAccountView create(@RequestBody @Valid FavoriteAccountCreate favoriteAccountCreate, @RequestHeader("User-Id") Long userId) throws FavouriteAccountCreateService.TooManyFavouriteAccountsBusinessException {
+        //TODO: this is just simple security check. dummy check. shouldn't be part of this controller
         if (!userService.isValidUser(userId)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -65,10 +68,23 @@ public class FavouriteAccountController {
     }
 
 
+
+
     @ResponseStatus(value= HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Map<String, String> handleConstraintValidationException(ConstraintViolationException ex) {
         return ex.getConstraintViolations().stream().collect(Collectors.toMap(c -> c.getPropertyPath().toString(), c->c.getMessage()));
     }
 
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleConstraintValidationException(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult().getAllErrors().stream().collect(Collectors.toMap(c-> c.getObjectName(), c->c.getDefaultMessage()));
+    }
+
+    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FavouriteAccountCreateService.TooManyFavouriteAccountsBusinessException.class)
+    public String handleConstraintValidationException(FavouriteAccountCreateService.TooManyFavouriteAccountsBusinessException ex) {
+        return "Too many accounts";
+    }
 }
