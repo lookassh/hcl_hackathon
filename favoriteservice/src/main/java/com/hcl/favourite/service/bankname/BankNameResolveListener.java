@@ -27,6 +27,7 @@ class BankNameResolveListener {
     @KafkaListener(topics = BankServiceConstraints.BANK_NAME_RESOLVED_TOPIC)
     public void onBankNameResolved(BankNameResolvedEvent event) {
         log.info("Received: {}", event);
+        // might be problem with parseLong - should be also handled
         Optional<FavouriteAccount> favouriteAccountOptional = favouriteAccountRespository.findById(Long.parseLong(event.getId()));
         if (favouriteAccountOptional.isPresent()) {
             FavouriteAccount account = favouriteAccountOptional.get();
