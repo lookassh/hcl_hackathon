@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>bankservice-api</module>
         <module>bankservice</module>
         <module>favoriteservice</module>
     </modules>
