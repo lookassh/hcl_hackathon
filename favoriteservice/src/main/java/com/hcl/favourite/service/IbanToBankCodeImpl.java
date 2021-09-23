@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class IbanToBankCodeImpl implements IbanToBankCode{
     @Override
     public String resolve(String iban) {
-        return null;
+        return iban.substring(4, 8);
     }
 }
