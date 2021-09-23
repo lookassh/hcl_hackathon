@@ -4,15 +4,19 @@ package com.hcl.favourite.service;
 import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.repository.FavouriteAccountRespository;
 import com.hcl.favourite.service.bankname.ResolveBankNameService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 
+import static com.hcl.favourite.domain.FavouriteAccount.Status.ERROR;
+
 /**
  * Service for favourite account creation
  */
+@Slf4j
 @Service
 @Validated
 //TODO: we can split implementation from api (interface)
@@ -36,10 +40,17 @@ public class FavouriteAccountCreateService {
             throw new TooManyFavouriteAccountsBusinessException();
         }
         //TODO: enumeration instead of string
-        account.setStatus(FavouriteAccount.Status.VALIDATION);
+        account.setStatus(FavouriteAccount.Status.PENDING_VALIDATION);
         FavouriteAccount favouriteAccount = favouriteAccountRespository.save(account);
         String bankCode = ibanToBankCode.resolve(account.getIban());
-        resolveBankNameService.submitResolveBankNameEvent(favouriteAccount.getId().toString(), bankCode);
+
+        try{
+            resolveBankNameService.submitResolveBankNameEvent(favouriteAccount.getId().toString(), bankCode);
+        }catch (Exception e){
+            log.error("Unable to send", e);
+            favouriteAccount.setStatus(ERROR);
+            favouriteAccountRespository.save(account);
+        }
         return favouriteAccount;
     }
 

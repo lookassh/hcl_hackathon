@@ -16,9 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
-import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 public class FavouriteAccountListServiceTest {
@@ -49,7 +47,7 @@ public class FavouriteAccountListServiceTest {
         favAccount.setId(1L);
         favAccount.setIban("ESP1123400001234");
         favAccount.setFavName("My account");
-        favAccount.setStatus(FavouriteAccount.Status.VALIDATED);
+        favAccount.setStatus(FavouriteAccount.Status.VALID);
         favAccount.setBankName("BankOfSpain");
 
         PageImpl<FavouriteAccount> page = new PageImpl<>(Arrays.asList(favAccount));
@@ -60,6 +58,6 @@ public class FavouriteAccountListServiceTest {
         FavouriteAccount response = page.getContent().get(0);
         Assertions.assertEquals(1L, response.getId());
         Assertions.assertEquals("My account", response.getFavName());
-        Assertions.assertEquals(FavouriteAccount.Status.VALIDATED, response.getStatus());
+        Assertions.assertEquals(FavouriteAccount.Status.VALID, response.getStatus());
     }
 }

@@ -52,7 +52,7 @@ public class FavouriteAccountControllerTest {
                 @Override
                 public FavouriteAccount create(@Valid FavouriteAccount account) {
                     account.setId(1l);
-                    account.setStatus(FavouriteAccount.Status.VALIDATION);
+                    account.setStatus(FavouriteAccount.Status.PENDING_VALIDATION);
                     return account;
                 }
             };

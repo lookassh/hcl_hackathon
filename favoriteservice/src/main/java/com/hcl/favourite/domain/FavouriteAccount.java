@@ -10,9 +10,10 @@ import javax.validation.constraints.Pattern;
 public class FavouriteAccount {
 
     public enum Status {
-        VALIDATION,
-        VALIDATED,
-        INVALID
+        PENDING_VALIDATION,
+        VALID,
+        INVALID,
+        ERROR
     }
 
     @Id

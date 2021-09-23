@@ -3,14 +3,11 @@ package com.hcl.favourite.service.bankname;
 import com.hcl.bankservice.api.BankNameNotResolvedEvent;
 import com.hcl.bankservice.api.BankNameResolvedEvent;
 import com.hcl.bankservice.api.BankServiceConstraints;
-import com.hcl.bankservice.api.ResolveBankNameEvent;
 import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.repository.FavouriteAccountRespository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -21,8 +18,7 @@ import java.util.Optional;
 @Component
 class BankNameResolveListener {
 
-    @Autowired
-    FavouriteAccountRespository favouriteAccountRespository;
+    private final FavouriteAccountRespository favouriteAccountRespository;
 
     @KafkaListener(topics = BankServiceConstraints.BANK_NAME_RESOLVED_TOPIC)
     public void onBankNameResolved(BankNameResolvedEvent event) {
@@ -31,7 +27,7 @@ class BankNameResolveListener {
         if (favouriteAccountOptional.isPresent()) {
             FavouriteAccount account = favouriteAccountOptional.get();
             account.setBankName(event.getBankName());
-            account.setStatus(FavouriteAccount.Status.VALIDATED);
+            account.setStatus(FavouriteAccount.Status.VALID);
             favouriteAccountRespository.save(account);
         } else {
             log.info("Invalid favourite account id: {}", event.getId());
