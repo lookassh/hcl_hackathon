@@ -1,7 +1,7 @@
 package com.hcl.favourite.controller;
 
 import com.hcl.favourite.domain.FavouriteAccount;
-import com.hcl.favourite.service.FavoriteAccountListService;
+import com.hcl.favourite.service.FavouriteAccountListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class FavouriteAccountController {
 
     @Autowired
-    private FavoriteAccountListService favoriteAccountListService;
+    private FavouriteAccountListService favouriteAccountListService;
 
     @GetMapping(path = "{userId}")
     public ResponseEntity<Page<FavouriteAccount>> getFavorites(@PathVariable Long userId,
                                                                Pageable pageable) {
-        Page<FavouriteAccount> page = favoriteAccountListService.viewFavorites(userId, pageable);
+        Page<FavouriteAccount> page = favouriteAccountListService.viewFavorites(userId, pageable);
         return new ResponseEntity(page, HttpStatus.OK);
     }
 
