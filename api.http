@@ -1,44 +1,23 @@
-GET /favorites?page=0&size=5
-Authorization: Basic user1 pwd
+### Get Favorites
+GET http://localhost:9090/api/v1/favourites
+User-Id: 2
 
-#
-
-{
-"total" : int,
-"page" : int,
-"size" : int,
-"results" : [
-	{ "favId": int,
-	  "favName" : String,
-	  "iban" : String,
-	  "bankName" : String,
-	  "status" : String
-	}
-}
-
-###
-
-POST /favorites
-Authorization: Basic user1 pwd
+### Create Valid
+POST http://localhost:9090/api/v1/favourites
 Content-Type: application/json
+User-Id: 2
 
 {
-  "favName" : String,
-  "iban" : String
+  "favName" : "My Denver account",
+  "iban" : "PL6112351014000007"
 }
 
-###
-
-PUT /favorites/{favId}
-Authorization: Basic user1 pwd
+### Create Invalid
+POST http://localhost:9090/api/v1/favourites
 Content-Type: application/json
+User-Id: 2
 
 {
-  "favName" : String,
-  "iban" : String
+  "favName" : "My BNP account",
+  "iban" : "PL6110901014000007"
 }
-
-###
-
-DELETE /favorites/{favId}
-Authorization: Basic user1 pwd
