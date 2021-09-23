@@ -1,6 +1,9 @@
 package com.hcl.favourite.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="fav_account")
@@ -21,9 +24,11 @@ public class FavouriteAccount {
     private Long userId;
 
     @Column(name="fav_name")
+    @NotBlank
     private String favName;
 
     @Column(name="iban")
+    @Pattern(regexp = "^[A-Za-z0-9]{1,20}$", message = "IBAN must consist of up to 20 alphanumeric characters")
     private String iban;
 
     @Column(name="bank_name")

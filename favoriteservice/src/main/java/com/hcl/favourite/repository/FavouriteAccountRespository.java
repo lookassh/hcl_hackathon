@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface FavouriteAccountRespository extends PagingAndSortingRepository<FavouriteAccount, Long> {
 
     Page<FavouriteAccount> findAllByUserId(long userId, Pageable pageable);
+
+    long countByUserId(long userId);
 }
