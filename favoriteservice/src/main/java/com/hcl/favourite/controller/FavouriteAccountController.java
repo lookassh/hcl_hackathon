@@ -5,7 +5,10 @@ import com.hcl.favourite.controller.dto.FavoriteAccountView;
 import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.service.FavouriteAccountCreateService;
 import com.hcl.favourite.service.FavouriteAccountListService;
+import com.hcl.favourite.service.FavouriteAccountDeleteService;
+import com.hcl.favourite.service.FavouriteAccountUpdateService;
 import com.hcl.favourite.service.UserService;
+import com.hcl.favourite.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +41,13 @@ public class FavouriteAccountController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FavouriteAccountDeleteService favouriteAccountDeleteService;
+
+    @Autowired
+    private FavouriteAccountUpdateService favouriteAccountUpdateService;
+
+
     @GetMapping()
     public ResponseEntity<Page<FavouriteAccount>> getFavorites(@RequestHeader("userId") Long userId,
                                                                @PageableDefault(value=5) Pageable pageable) {
@@ -56,6 +66,21 @@ public class FavouriteAccountController {
         return mapper.map(favouriteAccountCreateService.create(favouriteAccount), FavoriteAccountView.class);
     }
 
+    @DeleteMapping(path = "/{favId}")
+    public void delete(@PathVariable Long favId) {
+        favouriteAccountDeleteService.deleteById(favId);
+    }
+
+    @PutMapping(path = "/{favId}",
+            consumes=MediaType.APPLICATION_JSON_VALUE,
+            produces=MediaType.APPLICATION_JSON_VALUE)
+    public FavoriteAccountView updateFavouriteAccount(@PathVariable Long favId,
+                                                   @RequestBody FavoriteAccountCreate favoriteAccountCreate){
+        ModelMapper mapper = new ModelMapper();
+        FavouriteAccount favouriteAccount = mapper.map(favoriteAccountCreate, FavouriteAccount.class);
+        favouriteAccount.setId(favId);
+        return mapper.map(favouriteAccountUpdateService.updateFavouriteAccount(favouriteAccount), FavoriteAccountView.class);
+    }
 
     @ResponseStatus(value= HttpStatus.UNAUTHORIZED,
             reason="Missing User-Id header")
