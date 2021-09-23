@@ -3,8 +3,8 @@
 * Hackathon
 ** Project Setup
 *** FavoriteService - Spring boot app
-*** BankService - Spring boot app
-*** Kafka instance
+*** [LK] BankService - Spring boot app
+*** [LK] Kafka instance
 *** MySql DB
 ** Login Page
 *** Data tables
@@ -30,10 +30,10 @@
 **** endpoint DELETE /favorites/{fvId}
 ** [LK] Bank Service
 *** [LK] Data tables
-*** [LK] DRepository
-*** [LK] DBankCodeResolverService
-*** [LK] Dkafka listener
-*** [LK] Dkafka producer
+*** [LK] Repository
+*** [LK] BankCodeResolverService
+*** [LK] kafka listener
+*** [LK] kafka producer
 
 
 @endwbs
