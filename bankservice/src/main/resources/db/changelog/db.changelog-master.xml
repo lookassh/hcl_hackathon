@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+
+    <changeSet id="Create Bank Codes table" author="Lukasz Kwiatkowski">
+        <createTable tableName="bank">
+            <column name="code" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex indexName="index_bank_code" tableName="bank">
+            <column name="code"/>
+        </createIndex>
+        <rollback>
+            <dropTable tableName="bank"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="Sample Bank Codes data" author="Lukasz Kwiatkowski">
+        <insert tableName="bank">
+            <column name="code"  value="1234"/>
+            <column name="name"  value="Nairobi Bank"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="code"  value="1235"/>
+            <column name="name"  value="Denver Bank"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="code"  value="1236"/>
+            <column name="name"  value="Moscow Bank"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="code"  value="1237"/>
+            <column name="name"  value="Tokio Bank"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
