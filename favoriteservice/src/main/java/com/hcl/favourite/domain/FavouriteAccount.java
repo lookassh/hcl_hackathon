@@ -1,23 +1,29 @@
 package com.hcl.favourite.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name="fav_account")
 public class FavouriteAccount {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="id")
     private Long id;
 
+    @Column(name="user_id")
+    private Long userId;
+
+    @Column(name="fav_name")
     private String favName;
 
+    @Column(name="iban")
     private String iban;
 
+    @Column(name="bank_name")
     private String bankName;
 
+    @Column(name="status")
     private String status;
 
     public Long getId() {
@@ -59,4 +65,8 @@ public class FavouriteAccount {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Long getUserId() { return userId; }
+
+    public void setUserId(Long userId) { this.userId = userId; }
 }
