@@ -4,10 +4,15 @@ Authorization: Basic user1 pwd
 #
 
 {
-"favId":
-
+"total" : int,
+"results" : [
+	{ "favId": int,
+	  "favName" : String,
+	  "iban" : String,
+	  "bankName" : String,
+	  "status" : String
+	}
 }
-
 
 ###
 
