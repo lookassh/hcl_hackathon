@@ -6,6 +6,12 @@ import javax.persistence.*;
 @Table(name="fav_account")
 public class FavouriteAccount {
 
+    public enum Status {
+        VALIDATION,
+        VALIDATED,
+        INVALID
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="id")
@@ -24,7 +30,8 @@ public class FavouriteAccount {
     private String bankName;
 
     @Column(name="status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public Long getId() {
         return id;
@@ -58,11 +65,9 @@ public class FavouriteAccount {
         this.bankName = bankName;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public Status getStatus() { return status; }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
