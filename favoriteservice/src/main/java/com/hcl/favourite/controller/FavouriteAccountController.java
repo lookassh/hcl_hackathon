@@ -4,7 +4,9 @@ import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.service.FavouriteAccountListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class FavouriteAccountController {
 
     @GetMapping()
     public ResponseEntity<Page<FavouriteAccount>> getFavorites(@RequestHeader("userId") Long userId,
-                                                               Pageable pageable) {
+                                                               @PageableDefault(value=5) Pageable pageable) {
         Page<FavouriteAccount> page = favouriteAccountListService.viewFavorites(userId, pageable);
         return new ResponseEntity(page, HttpStatus.OK);
     }
