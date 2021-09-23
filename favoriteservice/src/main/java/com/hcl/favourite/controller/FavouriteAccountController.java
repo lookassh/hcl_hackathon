@@ -41,6 +41,9 @@ public class FavouriteAccountController {
     @GetMapping()
     public ResponseEntity<Page<FavouriteAccount>> getFavorites(@RequestHeader("User-Id") Long userId,
                                                                @PageableDefault(value=5) Pageable pageable) {
+        if (!userService.isValidUser(userId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         Page<FavouriteAccount> page = favouriteAccountListService.viewFavorites(userId, pageable);
         return new ResponseEntity(page, HttpStatus.OK);
     }
