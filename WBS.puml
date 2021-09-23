@@ -1,0 +1,40 @@
+@startwbs
+'https://plantuml.com/wbs-diagram
+* Hackathon
+** Project Setup
+*** FavoriteService - Spring boot app
+*** BankService - Spring boot app
+*** Kafka instance
+*** MySql DB
+** Login Page
+*** Data tables
+*** filter Auth Service / Basic Auth\n UserId in header
+** Favorite
+*** Data tables
+*** Entity objects
+**** Repository
+*** View
+**** endpoint /favorites
+**** pagination
+**** FavoriteSearchService
+*** Add
+**** endpoint POST /favorites
+**** Fields validation
+**** FavoriteCreateService
+**** Resolve BankCode based on IBAN (kafka)
+*** Edit
+**** endpoint PUT /favorites/{fvId}
+**** Fields validation
+**** FavoriteEditService
+**** Resolve BankCode based on IBAN (kafka)
+*** Delete
+**** endpoint DELETE /favorites/{fvId}
+** Bank Service
+*** Data tables
+*** Repository
+*** BankCodeResolverService
+*** kafka listener
+*** kafka producer
+
+
+@endwbs

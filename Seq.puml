@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+User -> FavoriteService: http: GET /favorites
+return favorites
+...
+User -> FavoriteService: http: DELETE /favorites/{favId}
+return OK
+...
+User -> FavoriteService: http: POST /favorites
+FavoriteService -> FavoriteService: validate
+FavoriteService -> DB: insert favorite with Status VALIDATION
+return fvId
+FavoriteService -> BankService: GetBankCodeRequest(fvId, IBAN)
+FavoriteService -> User: OK
+BankService -> FavoriteService: BankCodeResponse(fvId, bank_code, status)
+FavoriteService -> DB: select favorite where id=fvId
+return FavoriteEntity
+FavoriteService -> FavoriteService: update FavoriteEntity status
+FavoriteService -> DB: persist FavoriteEntity
+...
+User -> FavoriteService: http: PUT /favorites/{favId}
+FavoriteService -> FavoriteService: validate
+FavoriteService -> DB: update favorite with Status VALIDATION
+return fvId
+FavoriteService -> BankService: GetBankCodeRequest(fvId, IBAN)
+FavoriteService -> User: OK
+BankService -> FavoriteService: BankCodeResponse(fvId, bank_code, status)
+FavoriteService -> DB: select favorite where id=fvId
+return FavoriteEntity
+FavoriteService -> FavoriteService: update FavoriteEntity status
+FavoriteService -> DB: persist FavoriteEntity
+
+@enduml
