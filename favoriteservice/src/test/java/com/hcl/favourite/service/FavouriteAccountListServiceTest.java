@@ -60,6 +60,6 @@ public class FavouriteAccountListServiceTest {
         FavouriteAccount response = page.getContent().get(0);
         Assertions.assertEquals(1L, response.getId());
         Assertions.assertEquals("My account", response.getFavName());
-        Assertions.assertEquals(FavouriteAccount.Status.INVALID, response.getStatus());
+        Assertions.assertEquals(FavouriteAccount.Status.VALIDATED, response.getStatus());
     }
 }
