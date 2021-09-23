@@ -3,6 +3,7 @@ package com.hcl.favourite.service;
 
 import com.hcl.favourite.domain.FavouriteAccount;
 import com.hcl.favourite.repository.FavouriteAccountRespository;
+import com.hcl.favourite.service.bankname.ResolveBankNameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,10 @@ public class FavouriteAccountCreateService {
 
     @Autowired
     private FavouriteAccountRespository favouriteAccountRespository;
-
+    @Autowired
+    private ResolveBankNameService resolveBankNameService;
+    @Autowired
+    private IbanToBankCode ibanToBankCode;
     /**
      * Creates favourite account
      * @param account account to be created
@@ -33,7 +37,10 @@ public class FavouriteAccountCreateService {
         }
         //TODO: enumeration instead of string
         account.setStatus(FavouriteAccount.Status.VALIDATION);
-        return favouriteAccountRespository.save(account);
+        FavouriteAccount favouriteAccount = favouriteAccountRespository.save(account);
+        String bankCode = ibanToBankCode.resolve(account.getIban());
+        resolveBankNameService.submitResolveBankNameEvent(favouriteAccount.getId().toString(), bankCode);
+        return favouriteAccount;
     }
 
     public static class TooManyFavouriteAccountsBusinessException extends Exception {

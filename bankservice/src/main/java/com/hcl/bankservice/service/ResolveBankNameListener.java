@@ -25,13 +25,15 @@ public class ResolveBankNameListener {
     @KafkaListener(topics = BankServiceConstraints.RESOLVE_BANK_NAME_TOPIC)
     public void onRegisterEvent(ResolveBankNameEvent resolveBankNameEvent) {
         String transactionId = resolveBankNameEvent.getId();
-        log.debug("Received: {}", resolveBankNameEvent);
-        Optional<BankEntity> opBankEntity =bankRepository.findById(resolveBankNameEvent.getBankCode());
-        if(opBankEntity.isPresent()){
+        log.info("Received: {}", resolveBankNameEvent);
+        Optional<BankEntity> opBankEntity = bankRepository.findById(resolveBankNameEvent.getBankCode());
+        if (opBankEntity.isPresent()) {
+            log.info("Entry found");
             BankEntity bankEntity = opBankEntity.get();
             kafkaTemplate.send(BankServiceConstraints.BANK_NAME_RESOLVED_TOPIC,
                     new BankNameResolvedEvent(transactionId, bankEntity.getCode(), bankEntity.getName()));
-        }else {
+        } else {
+            log.info("Entry not found");
             kafkaTemplate.send(BankServiceConstraints.BANK_NAME_NOT_FOUND_TOPIC,
                     new BankNameNotResolvedEvent(transactionId, resolveBankNameEvent.getBankCode()));
         }
