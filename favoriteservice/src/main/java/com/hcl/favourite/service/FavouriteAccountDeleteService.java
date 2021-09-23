@@ -1,7 +1,14 @@
 package com.hcl.favourite.service;
 
-import org.springframework.stereotype.Service;
+import com.hcl.favourite.repository.FavouriteAccountRespository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Service
 public class FavouriteAccountDeleteService {
+
+    @Autowired
+    private FavouriteAccountRespository favouriteAccountRespository;
+
+    public void deleteById(Long favId) {
+        favouriteAccountRespository.deleteById(favId);
+    }
 }
