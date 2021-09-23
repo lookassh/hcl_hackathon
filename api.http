@@ -5,6 +5,8 @@ Authorization: Basic user1 pwd
 
 {
 "total" : int,
+"page" : int,
+"size" : int,
 "results" : [
 	{ "favId": int,
 	  "favName" : String,
@@ -16,3 +18,27 @@ Authorization: Basic user1 pwd
 
 ###
 
+POST /favorites
+Authorization: Basic user1 pwd
+Content-Type: application/json
+
+{
+  "favName" : String,
+  "iban" : String
+}
+
+###
+
+PUT /favorites/{favId}
+Authorization: Basic user1 pwd
+Content-Type: application/json
+
+{
+  "favName" : String,
+  "iban" : String
+}
+
+###
+
+DELETE /favorites/{favId}
+Authorization: Basic user1 pwd
